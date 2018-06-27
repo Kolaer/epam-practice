@@ -1,7 +1,7 @@
 package com.epam.practice.model.repositories;
 
 import com.epam.practice.model.Gift;
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface GiftRepository extends CrudRepository<Gift, Long> {
+public interface GiftRepository extends JpaRepository<Gift, Long> {
 }

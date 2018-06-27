@@ -1,4 +1,5 @@
 <%@taglib prefix="tags" tagdir="/WEB-INF/tags" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <tags:template>
     <jsp:body>
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -9,11 +10,11 @@
 
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto">
-                    <li class="nav-item active">
-                        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-                    </li>
                     <li class="nav-item">
-                        <a href="${pageContext.request.contextPath}/gifts" class="nav-link">Gifts</a>
+                        <a href="${pageContext.request.contextPath}/" class="nav-link">Home <span class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="nav-item active">
+                        <a href="#" class="nav-link">Gifts</a>
                     </li>
                     <li class="nav-item">
                         <a href="${pageContext.request.contextPath}/admin" class="nav-link">Admin panel</a>
@@ -22,6 +23,9 @@
             </div>
         </nav>
         <hr/>
-        Some info about this project.
+        List of all gifts: <br/>
+        <c:forEach var="gift" items="${gifts}">
+            <c:out value="${gift.toString()}"/> <br/>
+        </c:forEach>
     </jsp:body>
 </tags:template>

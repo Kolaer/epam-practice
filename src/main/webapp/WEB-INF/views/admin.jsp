@@ -9,19 +9,20 @@
 
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto">
-                    <li class="nav-item active">
-                        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                    <li class="nav-item">
+                        <a href="${pageContext.request.contextPath}/" class="nav-link">Home <span class="sr-only">(current)</span></a>
                     </li>
                     <li class="nav-item">
                         <a href="${pageContext.request.contextPath}/gifts" class="nav-link">Gifts</a>
                     </li>
-                    <li class="nav-item">
-                        <a href="${pageContext.request.contextPath}/admin" class="nav-link">Admin panel</a>
+                    <li class="nav-item active">
+                        <a href="#" class="nav-link">Admin panel</a>
                     </li>
                 </ul>
+                <a href="${pageContext.request.contextPath}/logout">Logout</a>
             </div>
         </nav>
         <hr/>
-        Some info about this project.
+        Admin panel.
     </jsp:body>
 </tags:template>

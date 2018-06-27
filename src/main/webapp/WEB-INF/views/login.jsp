@@ -9,19 +9,25 @@
 
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto">
-                    <li class="nav-item active">
-                        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                    <li class="nav-item">
+                        <a href="${pageContext.request.contextPath}/" class="nav-link">Home <span class="sr-only">(current)</span></a>
                     </li>
                     <li class="nav-item">
                         <a href="${pageContext.request.contextPath}/gifts" class="nav-link">Gifts</a>
                     </li>
-                    <li class="nav-item">
-                        <a href="${pageContext.request.contextPath}/admin" class="nav-link">Admin panel</a>
+                    <li class="nav-item active">
+                        <a href="#" class="nav-link">Admin panel</a>
                     </li>
                 </ul>
             </div>
         </nav>
         <hr/>
-        Some info about this project.
+        <form method="post">
+            <div class="form-group">
+                <label for="exampleInputPassword1">Password</label>
+                <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password" name="password">
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
     </jsp:body>
 </tags:template>
