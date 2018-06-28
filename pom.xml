@@ -15,6 +15,7 @@
         <java.version>1.8</java.version>
         <servlet.port>8080</servlet.port>
         <spring.version>5.0.7.RELEASE</spring.version>
+        <spring-security.version>5.0.6.RELEASE</spring-security.version>
         <cglib.version>2.2.2</cglib.version>
         <spring-data.version>2.0.8.RELEASE</spring-data.version>
         <hibernate.version>5.3.1.Final</hibernate.version>
@@ -45,6 +46,19 @@
             <version>${hibernate.version}</version>
         </dependency>
 
+
+        <!-- Spring security -->
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-web</artifactId>
+            <version>${spring-security.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-config</artifactId>
+            <version>${spring-security.version}</version>
+        </dependency>
 
         <!-- Spring core & mvc -->
         <dependency>
@@ -125,6 +139,21 @@
                     <port>${servlet.port}</port>
                     <contextReloadable>true</contextReloadable>
                 </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>3.2.2</version>
+                <executions>
+                    <execution>
+                        <id>default-war</id>
+                        <phase>prepare-package</phase>
+                        <configuration>
+                            <failOnMissingWebXml>false</failOnMissingWebXml>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>

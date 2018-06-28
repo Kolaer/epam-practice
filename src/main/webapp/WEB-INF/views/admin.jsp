@@ -19,7 +19,10 @@
                         <a href="#" class="nav-link">Admin panel</a>
                     </li>
                 </ul>
-                <a href="${pageContext.request.contextPath}/logout">Logout</a>
+                <form class="form-inline" action="${pageContext.request.contextPath}/logout" method="post">
+                    <input type="submit" value="Log out" />
+                    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+                </form>
             </div>
         </nav>
         <hr/>
