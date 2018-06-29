@@ -1,10 +1,10 @@
 package com.epam.practice.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import org.hibernate.annotations.Cascade;
+
+import javax.persistence.*;
 import java.io.Serializable;
+import java.util.List;
 
 @Entity
 public class Question implements Serializable {
@@ -12,7 +12,12 @@ public class Question implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    @Column(unique = true, nullable = false)
     private String question;
+
+    @OneToMany
+    @Cascade(org.hibernate.annotations.CascadeType.DELETE)
+    private List<Answers> answers;
 
     public Question() {
     }

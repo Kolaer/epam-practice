@@ -20,12 +20,32 @@
                     </li>
                 </ul>
                 <form class="form-inline" action="${pageContext.request.contextPath}/logout" method="post">
-                    <input type="submit" value="Log out" />
+                    <input class="btn btn-outline-primary" type="submit" value="Log out" />
                     <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
                 </form>
             </div>
         </nav>
         <hr/>
-        Admin panel.
+        <ul class="nav nav-pills nav-fill" id="pills-tab" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link active" id="pills-gifts" data-toggle="pill" href="#gifts" role="tab">Gifts</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="pills-questions" data-toggle="pill" href="#questions" role="tab">Questions</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="pills-answers" data-toggle="pill" href="#answers" role="tab">Answers</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="pills-tester" data-toggle="pill" href="#tester" role="tab">Tester</a>
+            </li>
+        </ul>
+
+        <div class="tab-content" id="pills-tabContent">
+            <div class="tab-pane fade show active" id="gifts" role="tabpanel">gifts</div>
+            <div class="tab-pane fade" id="questions" role="tabpanel">questions</div>
+            <div class="tab-pane fade" id="answers" role="tabpanel">answers</div>
+            <div class="tab-pane fade" id="tester" role="tabpanel">tester</div>
+        </div>
     </jsp:body>
 </tags:template>
