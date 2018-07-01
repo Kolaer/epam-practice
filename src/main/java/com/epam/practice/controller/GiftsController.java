@@ -36,7 +36,14 @@ public class GiftsController {
         final long count = giftRepository.count();
 
         ret.addObject("giftsCount", count);
-        ret.addObject("pageCount", count / pageSize);
+
+        long pageCount = count / pageSize;
+        if(count % pageSize != 0) {
+            pageCount += 1;
+        }
+
+        ret.addObject("pageCount", pageCount);
+        ret.addObject("thisPage", offset);
 
         Page<Gift> giftPage = giftRepository.findAll(PageRequest.of(offset, pageSize));
 

@@ -23,9 +23,52 @@
             </div>
         </nav>
         <hr/>
-        List of all gifts: <br/>
-        <c:forEach var="gift" items="${gifts}">
-            <c:out value="${gift.toString()}"/> <br/>
-        </c:forEach>
+        <ul id="pagination" class="pagination-sm"></ul>
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Name</th>
+                <th scope="col">Description</th>
+                <th scope="col">URL</th>
+            </tr>
+            </thead>
+            <tbody>
+            <c:forEach var="gift" items="${gifts}">
+                <tr>
+                <th scope="row">
+                    <c:out value="${gift.id}"/>
+                </th>
+                <td>
+                    <c:out value="${gift.name}"/>
+                </td>
+                <td>
+                    <c:out value="${gift.description}"/>
+                </td>
+                <td>
+                    <a href="<c:out value="${gift.url}"/>">
+                            <c:out value="${gift.url}"/>
+                    </a>
+                </td>
+                </tr>
+            </c:forEach>
+            </tbody>
+        </table>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/twbs-pagination/1.4.1/jquery.twbsPagination.min.js"></script>
+        <script>
+            if(${pageCount} > 0) {
+                $('#pagination').twbsPagination({
+                    totalPages: ${pageCount},
+                    startPage: ${thisPage + 1},
+                    visiblePages: 7,
+                    onPageClick: function (event, page) {
+                        page = page - 1;
+                        if (window.location.search.indexOf("offset="+page.toString()) === -1) {
+                            window.location = "/gifts?offset=" + page.toString();
+                        }
+                    }
+                });
+            }
+        </script>
     </jsp:body>
 </tags:template>
