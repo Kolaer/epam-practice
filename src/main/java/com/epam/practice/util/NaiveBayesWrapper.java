@@ -12,6 +12,8 @@ public class NaiveBayesWrapper {
     private QuestionRepository questionRepository;
     private GiftRepository giftRepository;
 
+    private Gift bestGift;
+
     public NaiveBayesWrapper(NaiveBayes naiveBayes, QuestionRepository questionRepository, GiftRepository giftRepository) {
         this.naiveBayes = naiveBayes;
         this.questionRepository = questionRepository;
@@ -31,10 +33,16 @@ public class NaiveBayesWrapper {
     public Gift getBestGift() {
         long bestGiftId = naiveBayes.getBestGiftId();
 
-        return giftRepository.getOne(bestGiftId);
+        bestGift = giftRepository.getOne(bestGiftId);
+
+        return bestGift;
     }
 
     public void userAnswer(Answer answer) {
         naiveBayes.userAnswer(answer);
+    }
+
+    public void succeed() {
+        naiveBayes.succeed(bestGift.getId());
     }
 }

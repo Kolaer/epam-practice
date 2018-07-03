@@ -76,4 +76,12 @@ public class Gift implements Serializable {
     public void setUrl(String url) {
         this.url = url;
     }
+
+    public Long getLikes() {
+        return likes;
+    }
+
+    public void setLikes(Long likes) {
+        this.likes = likes;
+    }
 }

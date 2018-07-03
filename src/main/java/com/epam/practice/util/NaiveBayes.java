@@ -9,7 +9,7 @@ import java.util.concurrent.ThreadLocalRandom;
 public class NaiveBayes {
     private BayesDataInput dataInput;
 
-    private List<Integer> askedQuestionsIds;
+    private List<Long> askedQuestionsIds;
     private List<Answer> userAnswers;
 
     // uses "log" values, instead of normal,
@@ -27,9 +27,9 @@ public class NaiveBayes {
         askedQuestionsIds = new ArrayList<>();
         userAnswers = new ArrayList<>();
 
-        int numberOfGifts = dataInput.getNumberOfGifts();
+        long numberOfGifts = dataInput.getNumberOfGifts();
 
-        giftValues = new ArrayList<>(numberOfGifts);
+        giftValues = new ArrayList<>((int) numberOfGifts);
 
         double totalPopularity = dataInput.getTotalPopularity();
 
@@ -80,5 +80,9 @@ public class NaiveBayes {
         giftValues.set((int) best, Double.NEGATIVE_INFINITY);
 
         return dataInput.getNthGiftId(best);
+    }
+
+    void succeed(long giftId) {
+        dataInput.succeed(askedQuestionsIds, userAnswers, giftId);
     }
 }

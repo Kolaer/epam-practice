@@ -2,9 +2,11 @@ package com.epam.practice.util;
 
 import com.epam.practice.model.Answer;
 
+import java.util.List;
+
 public class TestDataInput implements BayesDataInput {
     @Override
-    public int getNumberOfGifts() {
+    public long getNumberOfGifts() {
         return 0;
     }
 
@@ -38,9 +40,22 @@ public class TestDataInput implements BayesDataInput {
         return 0;
     }
 
+    @Override
+    public void succeed(List<Long> askedQuestionsIds, List<Answer> userAnswers, long giftId) {
+
+    }
+
     void clean() {
     }
 
     void generate(int numberOfGifts, int numberOfQuestions) {
+    }
+
+    long pickGift() {
+        return 0;
+    }
+
+    Answer getAnswer(long questionId, long giftId) {
+        return Answer.IDK;
     }
 }

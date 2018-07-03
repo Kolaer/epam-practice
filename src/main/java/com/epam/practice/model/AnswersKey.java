@@ -5,4 +5,9 @@ import java.io.Serializable;
 public class AnswersKey implements Serializable {
     Gift gift;
     Question question;
+
+    public AnswersKey(Gift gift, Question question) {
+        this.gift = gift;
+        this.question = question;
+    }
 }
