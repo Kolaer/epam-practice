@@ -1,5 +1,8 @@
 package com.epam.practice.model;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import javax.persistence.*;
 import java.io.Serializable;
 
@@ -8,12 +11,12 @@ import java.io.Serializable;
 public class Answers implements Serializable {
     @Id
     @ManyToOne
-    @JoinColumn
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Gift gift;
 
     @Id
     @ManyToOne
-    @JoinColumn
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Question question;
 
     private Long answerYes = 1L;

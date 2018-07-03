@@ -1,23 +1,16 @@
 package com.epam.practice.model;
 
-import org.hibernate.annotations.Cascade;
-
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.List;
 
 @Entity
 public class Question implements Serializable {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(unique = true, nullable = false)
     private String question;
-
-    @OneToMany
-    @Cascade(org.hibernate.annotations.CascadeType.DELETE)
-    private List<Answers> answers;
 
     public Question() {
     }
