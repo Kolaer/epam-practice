@@ -24,6 +24,8 @@ public class Gift implements Serializable {
     @Cascade(org.hibernate.annotations.CascadeType.DELETE)
     private List<Answers> answers;
 
+    private Long likes = 1L;
+
     public Gift() {
     }
 

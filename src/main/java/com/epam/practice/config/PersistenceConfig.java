@@ -1,9 +1,10 @@
 package com.epam.practice.config;
 
-import org.hsqldb.jdbc.JDBCDataSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
+import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
@@ -20,24 +21,26 @@ public class PersistenceConfig {
 
     @Bean
     public DataSource dataSource() {
-        JDBCDataSource ds = new JDBCDataSource();
-        ds.setURL("jdbc:hsqldb:file:gifty-db");
-        ds.setUser("SA");
-        ds.setPassword("");
+        EmbeddedDatabaseBuilder builder = new EmbeddedDatabaseBuilder();
 
-        return ds;
+        return builder.setType(EmbeddedDatabaseType.HSQL)
+                .setSeparator("/;") // because triggers uses ;
+                .addScript("schema.sql")
+                .addScript("triggers.sql")
+                .addScript("populate.sql")
+                .build();
     }
 
     @Bean
     public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
         HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
-        vendorAdapter.setGenerateDdl(true);
         vendorAdapter.setShowSql(true);
 
         LocalContainerEntityManagerFactoryBean factory = new LocalContainerEntityManagerFactoryBean();
         factory.setJpaVendorAdapter(vendorAdapter);
         factory.setPackagesToScan("com.epam.practice");
         factory.setDataSource(dataSource());
+
         return factory;
     }
 

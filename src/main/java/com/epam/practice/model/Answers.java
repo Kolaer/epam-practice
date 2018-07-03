@@ -16,9 +16,9 @@ public class Answers implements Serializable {
     @JoinColumn
     private Question question;
 
-    private Long answerYes;
-    private Long answerNo;
-    private Long answerIdk;
+    private Long answerYes = 1L;
+    private Long answerNo = 1L;
+    private Long answerIdk = 1L;
 
     public Answers() {
     }
