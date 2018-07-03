@@ -5,37 +5,36 @@ import com.epam.practice.model.Gift;
 import com.epam.practice.model.Question;
 import com.epam.practice.model.repositories.GiftRepository;
 import com.epam.practice.model.repositories.QuestionRepository;
-import com.epam.practice.util.strategy.Strategy;
 
-public class StrategyWrapper {
-    private Strategy strategy;
+public class NaiveBayesWrapper {
+    private NaiveBayes naiveBayes;
 
     private QuestionRepository questionRepository;
     private GiftRepository giftRepository;
 
-    public StrategyWrapper(Strategy strategy, QuestionRepository questionRepository, GiftRepository giftRepository) {
-        this.strategy = strategy;
+    public NaiveBayesWrapper(NaiveBayes naiveBayes, QuestionRepository questionRepository, GiftRepository giftRepository) {
+        this.naiveBayes = naiveBayes;
         this.questionRepository = questionRepository;
         this.giftRepository = giftRepository;
     }
 
     public Question getNextQuestion() {
-        final Integer nextQuestionId = strategy.getNextQuestionId();
+        long nextQuestionId = naiveBayes.getNextQuestionId();
 
-        return questionRepository.getOne(nextQuestionId.longValue());
+        return questionRepository.getOne(nextQuestionId);
     }
 
     public boolean canGetBest() {
-        return strategy.canGetBest();
+        return naiveBayes.canGetBest();
     }
 
     public Gift getBestGift() {
-        final Integer bestGiftId = strategy.getBestGiftId();
+        long bestGiftId = naiveBayes.getBestGiftId();
 
-        return giftRepository.getOne(bestGiftId.longValue());
+        return giftRepository.getOne(bestGiftId);
     }
 
     public void userAnswer(Answer answer) {
-        strategy.userAnswer(answer);
+        naiveBayes.userAnswer(answer);
     }
 }

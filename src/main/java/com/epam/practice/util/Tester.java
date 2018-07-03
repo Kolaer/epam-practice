@@ -1,16 +1,18 @@
 package com.epam.practice.util;
 
-import com.epam.practice.util.strategy.Strategy;
-
 public class Tester {
-    private Strategy strategy;
+    private NaiveBayes bayes;
+    private TestDataInput testDataInput;
 
-    public Tester(Strategy strategy) {
-        this.strategy = strategy;
+    public Tester() {
+        testDataInput = new TestDataInput();
+        this.bayes = new NaiveBayes(testDataInput);
     }
 
     public double testStrategy(int numberOfGifts, int numberOfQuestions,
                                int numberOfLearningRuns, int numberOfRuns) {
+        testDataInput.clean();
+        testDataInput.generate(numberOfGifts, numberOfQuestions);
         return 0;
     }
 }
