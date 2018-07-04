@@ -46,19 +46,19 @@
             <div class="form-group">
                 <label for="giftId">Gift id</label>
                 <input id="giftId" class="form-control" type="text" disabled value="${gift.id}">
-                <input type="hidden" name="giftId" value="${gift.id}">
+                <input type="hidden" name="id" value="${gift.id}">
             </div>
             <div class="form-group">
                 <label for="giftName">Gift name</label>
-                <input name="giftName" id="giftName" class="form-control" type="text" value="${gift.name}" placeholder="Gift name">
+                <input name="name" id="giftName" class="form-control" type="text" value="${gift.name}" placeholder="Gift name">
             </div>
             <div class="form-group">
                 <label for="giftDesc">Gift description</label>
-                <input name="giftDesc" id="giftDesc" class="form-control" type="text" value="${gift.description}" placeholder="Gift description">
+                <input name="desc" id="giftDesc" class="form-control" type="text" value="${gift.description}" placeholder="Gift description">
             </div>
             <div class="form-group">
                 <label for="giftURL">Gift URL</label>
-                <input name="giftURL" id="giftURL" class="form-control" type="url" value="${gift.url}" placeholder="Gift URL">
+                <input name="url" id="giftURL" class="form-control" type="url" value="${gift.url}" placeholder="Gift URL">
             </div>
             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
             <button type="submit" class="btn btn-primary">Save</button>

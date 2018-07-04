@@ -106,7 +106,7 @@
                         xhr.setRequestHeader(header, token);
                     },
                     data: {
-                        giftId: id
+                        id: id
                     }
                 }).always(function () {
                     window.location.reload(true);

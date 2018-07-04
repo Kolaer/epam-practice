@@ -29,10 +29,10 @@
         <hr/>
         <ul class="nav nav-pills nav-fill">
             <li class="nav-item">
-                <a href="#" class="nav-link active">Gifts</a>
+                <a href="${pageContext.request.contextPath}/admin/gifts" class="nav-link">Gifts</a>
             </li>
             <li class="nav-item">
-                <a href="${pageContext.request.contextPath}/admin/questions" class="nav-link">Questions</a>
+                <a href="#" class="nav-link active">Questions</a>
             </li>
             <li class="nav-item">
                 <a href="${pageContext.request.contextPath}/admin/answers" class="nav-link">Answers</a>
@@ -42,21 +42,18 @@
             </li>
         </ul>
         <hr/>
-        <form action="${pageContext.request.contextPath}/admin/giftAdd" method="post">
+        <form action="${pageContext.request.contextPath}/admin/question" method="post">
             <div class="form-group">
-                <label for="giftName">Gift name</label>
-                <input name="name" id="giftName" class="form-control" type="text" placeholder="Gift name">
+                <label for="questionId">Question id</label>
+                <input id="questionId" class="form-control" type="text" disabled value="${question.id}">
+                <input type="hidden" name="id" value="${question.id}">
             </div>
             <div class="form-group">
-                <label for="giftDesc">Gift description</label>
-                <input name="desc" id="giftDesc" class="form-control" type="text" placeholder="Gift description">
-            </div>
-            <div class="form-group">
-                <label for="giftURL">Gift URL</label>
-                <input name="url" id="giftURL" class="form-control" type="url" placeholder="Gift URL">
+                <label for="questionQuestion">Question</label>
+                <input name="question" id="questionQuestion" class="form-control" type="text" value="${question.question}" placeholder="Question">
             </div>
             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-            <button type="submit" class="btn btn-primary">Add</button>
+            <button type="submit" class="btn btn-primary">Save</button>
         </form>
     </jsp:body>
 </tags:template>
