@@ -58,7 +58,7 @@ public class AdminGiftController {
         try {
             id = Long.parseLong(idString);
         } catch (NumberFormatException ex) {
-            return new ModelAndView("redirect:admin/gifts");
+            return new ModelAndView("redirect:/admin/gifts");
         }
 
         ModelAndView ret = new ModelAndView("admin/gift");
@@ -70,7 +70,7 @@ public class AdminGiftController {
 
             return ret;
         } else {
-            return new ModelAndView("redirect:admin/gifts");
+            return new ModelAndView("redirect:/admin/gifts");
         }
     }
 
@@ -109,12 +109,12 @@ public class AdminGiftController {
         try {
             id = Long.parseLong(idString);
         } catch (NumberFormatException ex) {
-            return "redirect:admin/gifts";
+            return "redirect:/admin/gifts";
         }
 
         giftRepository.deleteById(id);
 
-        return "redirect:admin/gifts";
+        return "redirect:/admin/gifts";
     }
 
     @RequestMapping(value = "/admin/giftAdd")

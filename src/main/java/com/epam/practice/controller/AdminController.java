@@ -12,11 +12,6 @@ public class AdminController {
         return "redirect:/admin/gifts";
     }
 
-    @RequestMapping("/admin/answers")
-    public String adminAnswers(ModelMap modelMap) {
-        return "admin/answers";
-    }
-
     @RequestMapping("/admin/tester")
     public String adminTester(ModelMap modelMap) {
         return "admin/tester";

@@ -10,12 +10,12 @@ import java.io.Serializable;
 @IdClass(AnswersKey.class)
 public class Answers implements Serializable {
     @Id
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Gift gift;
 
     @Id
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Question question;
 

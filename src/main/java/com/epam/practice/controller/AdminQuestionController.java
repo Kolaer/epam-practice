@@ -58,7 +58,7 @@ public class AdminQuestionController {
         try {
             id = Long.parseLong(idString);
         } catch (NumberFormatException ex) {
-            return new ModelAndView("redirect:admin/questions");
+            return new ModelAndView("redirect:/admin/questions");
         }
 
         ModelAndView ret = new ModelAndView("admin/question");
@@ -70,7 +70,7 @@ public class AdminQuestionController {
 
             return ret;
         } else {
-            return new ModelAndView("redirect:admin/questions");
+            return new ModelAndView("redirect:/admin/questions");
         }
     }
 

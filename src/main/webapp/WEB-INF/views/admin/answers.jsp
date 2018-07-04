@@ -1,4 +1,5 @@
 <%@taglib prefix="tags" tagdir="/WEB-INF/tags" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <tags:template>
     <jsp:body>
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -40,6 +41,63 @@
                 <a href="${pageContext.request.contextPath}/admin/tester" class="nav-link">Tester</a>
             </li>
         </ul>
-        <h1>Answers</h1>
+        <hr/>
+        <ul id="pagination" class="pagination-sm"></ul>
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">#Gift</th>
+                <th scope="col">#Question</th>
+                <th scope="col">Yes</th>
+                <th scope="col">No</th>
+                <th scope="col">Idk</th>
+                <th scope="col">Action</th>
+            </tr>
+            </thead>
+            <tbody>
+            <c:forEach var="answer" items="${answers}">
+                <tr>
+                    <th scope="row">
+                        <a href="${pageContext.request.contextPath}/admin/gift?id=${answer.gift.id}">
+                            <c:out value="${answer.gift.id}"/>
+                        </a>
+                    </th>
+                    <th scope="row">
+                        <a href="${pageContext.request.contextPath}/admin/question?id=${answer.question.id}">
+                            <c:out value="${answer.question.id}"/>
+                        </a>
+                    </th>
+                    <td>
+                        <c:out value="${answer.answerYes}"/>
+                    </td>
+                    <td>
+                        <c:out value="${answer.answerNo}"/>
+                    </td>
+                    <td>
+                        <c:out value="${answer.answerIdk}"/>
+                    </td>
+                    <td>
+                        <a href="${pageContext.request.contextPath}/admin/answer?giftId=${answer.gift.id}&questionId=${answer.question.id}">Edit</a>
+                    </td>
+                </tr>
+            </c:forEach>
+            </tbody>
+        </table>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/twbs-pagination/1.4.1/jquery.twbsPagination.min.js"></script>
+        <script>
+            if(${pageCount} > 0) {
+                $('#pagination').twbsPagination({
+                    totalPages: ${pageCount},
+                    startPage: ${thisPage + 1},
+                    visiblePages: 7,
+                    onPageClick: function (event, page) {
+                        page = page - 1;
+                        if (window.location.search.indexOf("offset="+page.toString()) === -1) {
+                            window.location = "/admin/answers?offset=" + page.toString();
+                        }
+                    }
+                });
+            }
+        </script>
     </jsp:body>
 </tags:template>
