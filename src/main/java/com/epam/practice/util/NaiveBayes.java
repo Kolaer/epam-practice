@@ -2,11 +2,12 @@ package com.epam.practice.util;
 
 import com.epam.practice.model.Answer;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
-public class NaiveBayes {
+public class NaiveBayes implements Serializable {
     private BayesDataInput dataInput;
 
     private List<Long> askedQuestionsIds;
@@ -31,6 +32,10 @@ public class NaiveBayes {
 
         giftValues = new ArrayList<>((int) numberOfGifts);
 
+        for (long i = 0; i < numberOfGifts; i++) {
+            giftValues.add(0.0);
+        }
+
         double totalPopularity = dataInput.getTotalPopularity();
 
         for (int i = 0; i < giftValues.size(); i++) {
@@ -39,7 +44,7 @@ public class NaiveBayes {
 
             double val = Math.log(popularity) - Math.log(totalPopularity);
 
-            giftValues.set(i, val);
+            giftValues.set(i, -val);
         }
     }
 
@@ -50,14 +55,17 @@ public class NaiveBayes {
         return dataInput.getNthQuestionId(id);
     }
 
-    void userAnswer(Answer answer) {
+    void userAnswer(Long questionId, Answer answer) {
         userAnswers.add(answer);
+        askedQuestionsIds.add(questionId);
 
         for (int i = 0; i < giftValues.size(); i++) {
             double val = giftValues.get(i);
             long giftId = dataInput.getNthGiftId(i);
 
-            giftValues.set(i, val + dataInput.getProbability(answer, giftId));
+            final double probability = dataInput.getProbability(questionId, answer, giftId);
+
+            giftValues.set(i, val - Math.log(probability));
         }
     }
 
@@ -71,13 +79,13 @@ public class NaiveBayes {
         long best = 0;
 
         for (int i = 1; i < giftValues.size(); i++) {
-            if (giftValues.get(i) > giftValues.get((int) best)) {
+            if (giftValues.get(i) > giftValues.get(Math.toIntExact(best))) {
                 best = i;
             }
         }
 
         // make sure that this gift will not be shown in a same "game"
-        giftValues.set((int) best, Double.NEGATIVE_INFINITY);
+        giftValues.set(Math.toIntExact(best), Double.NEGATIVE_INFINITY);
 
         return dataInput.getNthGiftId(best);
     }

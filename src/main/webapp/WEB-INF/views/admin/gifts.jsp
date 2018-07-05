@@ -51,6 +51,7 @@
                 <th scope="col">Name</th>
                 <th scope="col">Description</th>
                 <th scope="col">URL</th>
+                <th scope="col">Likes</th>
                 <th scope="col">Action</th>
             </tr>
             </thead>
@@ -70,6 +71,9 @@
                         <a href="<c:out value="${gift.url}"/>">
                             <c:out value="${gift.url}"/>
                         </a>
+                    </td>
+                    <td>
+                        <c:out value="${gift.likes}"/>
                     </td>
                     <td>
                         <a href="${pageContext.request.contextPath}/admin/gift?id=${gift.id}">Edit</a>

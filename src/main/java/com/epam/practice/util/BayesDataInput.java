@@ -17,7 +17,7 @@ interface BayesDataInput {
 
     long getNthQuestionId(long n);
 
-    double getProbability(Answer answer, long giftId);
+    double getProbability(Long questionId, Answer answer, long giftId);
 
     void succeed(List<Long> askedQuestionsIds, List<Answer> userAnswers, long giftId);
 }

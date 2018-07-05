@@ -78,11 +78,14 @@ public class AdminGiftController {
     public String adminGiftEdit(@RequestParam(name = "id") String idString,
                                 @RequestParam(name = "name") String name,
                                 @RequestParam(name = "desc") String desc,
+                                @RequestParam(name = "likes") String likeString,
                                 @RequestParam(name = "url") String url) {
         Long id;
+        Long likes;
 
         try {
             id = Long.parseLong(idString);
+            likes = Long.parseLong(likeString);
         } catch (NumberFormatException ex) {
             return "redirect:/admin";
         }
@@ -95,6 +98,7 @@ public class AdminGiftController {
             gift.setName(name);
             gift.setDescription(desc);
             gift.setUrl(url);
+            gift.setLikes(likes);
 
             giftRepository.save(gift);
         }
@@ -125,8 +129,18 @@ public class AdminGiftController {
     @RequestMapping(value = "/admin/giftAdd", method = RequestMethod.POST)
     public String adminGiftAdd(@RequestParam(name = "name") String name,
                                @RequestParam(name = "desc") String desc,
+                               @RequestParam(name = "likes") String likeString,
                                @RequestParam(name = "url") String url) {
+        Long likes;
+        try {
+            likes = Long.parseLong(likeString);
+        } catch (NumberFormatException ex) {
+            return "redirect:/admin/gifts";
+        }
+
         Gift gift = new Gift(name, desc, url);
+
+        gift.setLikes(likes);
 
         giftRepository.save(gift);
 

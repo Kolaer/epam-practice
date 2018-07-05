@@ -6,7 +6,9 @@ import com.epam.practice.model.Question;
 import com.epam.practice.model.repositories.GiftRepository;
 import com.epam.practice.model.repositories.QuestionRepository;
 
-public class NaiveBayesWrapper {
+import java.io.Serializable;
+
+public class NaiveBayesWrapper implements Serializable {
     private NaiveBayes naiveBayes;
 
     private QuestionRepository questionRepository;
@@ -38,8 +40,8 @@ public class NaiveBayesWrapper {
         return bestGift;
     }
 
-    public void userAnswer(Answer answer) {
-        naiveBayes.userAnswer(answer);
+    public void userAnswer(Long questionId, Answer answer) {
+        naiveBayes.userAnswer(questionId, answer);
     }
 
     public void succeed() {

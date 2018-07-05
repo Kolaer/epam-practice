@@ -9,6 +9,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 
 import java.util.List;
+import java.util.Optional;
 
 public class DBDataInput implements BayesDataInput {
     private GiftRepository giftRepository;
@@ -61,9 +62,36 @@ public class DBDataInput implements BayesDataInput {
     }
 
     @Override
-    public double getProbability(Answer answer, long giftId) {
-        //TODO: write logic here
-        return 0;
+    public double getProbability(Long questionId, Answer answer, long giftId) {
+        Optional<Gift> optionalGift = giftRepository.findById(giftId);
+        Optional<Question> optionalQuestion = questionRepository.findById(questionId);
+
+        if (optionalGift.isPresent() && optionalQuestion.isPresent()) {
+            AnswersKey key = new AnswersKey(optionalGift.get(), optionalQuestion.get());
+
+            Optional<Answers> answersOptional = answersRepository.findById(key);
+
+            if (answersOptional.isPresent()) {
+                Answers answers = answersOptional.get(); // always present, because triggers
+
+                double total = answers.getAnswerYes() + answers.getAnswerNo() + answers.getAnswerIdk();
+
+                switch (answer) {
+                    case YES:
+                        return answers.getAnswerYes() / total;
+                    case NO:
+                        return answers.getAnswerNo() / total;
+                    case IDK:
+                        return answers.getAnswerIdk() / total;
+                    default:
+                        return 0;
+                }
+            } else {
+                throw new IndexOutOfBoundsException();
+            }
+        } else {
+            throw new IndexOutOfBoundsException();
+        }
     }
 
     @Override

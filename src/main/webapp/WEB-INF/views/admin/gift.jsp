@@ -60,6 +60,10 @@
                 <label for="giftURL">Gift URL</label>
                 <input name="url" id="giftURL" class="form-control" type="url" value="${gift.url}" placeholder="Gift URL">
             </div>
+            <div class="form-group">
+                <label for="giftLikes">Gift likes</label>
+                <input name="likes" id="giftLikes" class="form-control" type="number" min="1" value="${gift.likes}" placeholder="Gift likes">
+            </div>
             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
             <button type="submit" class="btn btn-primary">Save</button>
         </form>
