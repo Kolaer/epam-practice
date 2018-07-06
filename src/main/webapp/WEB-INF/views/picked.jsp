@@ -3,7 +3,8 @@
     <jsp:body>
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <a class="navbar-brand" href="#">Menu</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
 
@@ -22,6 +23,17 @@
             </div>
         </nav>
         <hr/>
-        <a href="${pageContext.request.contextPath}/game">Start game</a>
+        Here is our guess:
+        <ul class="list-unstyled">
+            <li>${gift.name}</li>
+            <li>${gift.description}</li>
+            <li>
+                <a href="${gift.url}">
+                        ${gift.url}
+                </a>
+            </li>
+        </ul>
+        <a href="${pageContext.request.contextPath}/gameSuccess">I like it</a> <br/>
+        <a href="${pageContext.request.contextPath}/gameFail">Try again</a>
     </jsp:body>
 </tags:template>

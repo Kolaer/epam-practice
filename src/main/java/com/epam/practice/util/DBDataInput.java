@@ -4,23 +4,28 @@ import com.epam.practice.model.*;
 import com.epam.practice.model.repositories.AnswersRepository;
 import com.epam.practice.model.repositories.GiftRepository;
 import com.epam.practice.model.repositories.QuestionRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.TransactionDefinition;
+import org.springframework.transaction.TransactionStatus;
+import org.springframework.transaction.support.DefaultTransactionDefinition;
 
 import java.util.List;
 import java.util.Optional;
 
+@Service
 public class DBDataInput implements BayesDataInput {
+    @Autowired
     private GiftRepository giftRepository;
+    @Autowired
     private QuestionRepository questionRepository;
+    @Autowired
     private AnswersRepository answersRepository;
-
-    public DBDataInput(GiftRepository giftRepository, QuestionRepository questionRepository, AnswersRepository answersRepository) {
-        this.giftRepository = giftRepository;
-        this.questionRepository = questionRepository;
-        this.answersRepository = answersRepository;
-    }
+    @Autowired
+    private PlatformTransactionManager transactionManager;
 
     @Override
     public long getNumberOfGifts() {
@@ -34,8 +39,13 @@ public class DBDataInput implements BayesDataInput {
 
     @Override
     public long getPopularity(long giftId) {
-        Gift gift = giftRepository.getOne(giftId);
-        return gift.getLikes();
+        final Optional<Gift> optionalGift = giftRepository.findById(giftId);
+
+        if (optionalGift.isPresent()) {
+            return optionalGift.get().getLikes();
+        }
+
+        return 0;
     }
 
     @Override
@@ -45,7 +55,7 @@ public class DBDataInput implements BayesDataInput {
 
     @Override
     public long getNthGiftId(long n) {
-        Page<Gift> gifts = giftRepository.findAll(PageRequest.of((int) n, 1, Sort.Direction.ASC, "gift.id"));
+        Page<Gift> gifts = giftRepository.findAll(PageRequest.of(Math.toIntExact(n), 1));
 
         Gift gift = gifts.getContent().get(0);
 
@@ -54,7 +64,7 @@ public class DBDataInput implements BayesDataInput {
 
     @Override
     public long getNthQuestionId(long n) {
-        final Page<Question> questions = questionRepository.findAll(PageRequest.of((int) n, 1, Sort.Direction.ASC, "question.id"));
+        final Page<Question> questions = questionRepository.findAll(PageRequest.of((int) n, 1));
 
         Question question = questions.getContent().get(0);
 
@@ -96,34 +106,39 @@ public class DBDataInput implements BayesDataInput {
 
     @Override
     public void succeed(List<Long> askedQuestionsIds, List<Answer> userAnswers, long giftId) {
-        Gift bestGift = giftRepository.getOne(giftId);
+        TransactionDefinition def = new DefaultTransactionDefinition();
+        TransactionStatus status = transactionManager.getTransaction(def);
 
-        for (int i = 0; i < askedQuestionsIds.size(); i++) {
-            Long questionId = askedQuestionsIds.get(i);
-            Question question = questionRepository.getOne(questionId);
+        try {
+            Gift bestGift = giftRepository.findById(giftId).get();
 
-            Answer answer = userAnswers.get(i);
+            for (int i = 0; i < askedQuestionsIds.size(); i++) {
+                Long questionId = askedQuestionsIds.get(i);
 
-            AnswersKey answersKey = new AnswersKey(bestGift, question);
+                Question question = questionRepository.findById(questionId).get();
 
-            Answers answers = answersRepository.getOne(answersKey);
+                Answer answer = userAnswers.get(i);
 
-            switch (answer) {
-                case YES:
-                    answers.setAnswerYes(answers.getAnswerYes() + 1);
-                    break;
-                case NO:
-                    answers.setAnswerNo(answers.getAnswerNo() + 1);
-                    break;
-                case IDK:
-                    answers.setAnswerIdk(answers.getAnswerIdk() + 1);
+                switch (answer) {
+                    case YES:
+                        answersRepository.incYes(bestGift, question);
+                        break;
+                    case NO:
+                        answersRepository.incNo(bestGift, question);
+                        break;
+                    case IDK:
+                        answersRepository.incIDK(bestGift, question);
+                }
             }
 
-            answersRepository.save(answers);
+            bestGift.setLikes(bestGift.getLikes() + 1);
+
+            giftRepository.save(bestGift);
+
+            transactionManager.commit(status);
+        } catch (Exception e) {
+            transactionManager.rollback(status);
+            throw e;
         }
-
-        bestGift.setLikes(bestGift.getLikes() + 1);
-
-        giftRepository.save(bestGift);
     }
 }

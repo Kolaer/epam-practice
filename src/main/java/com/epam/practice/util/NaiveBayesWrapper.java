@@ -5,27 +5,33 @@ import com.epam.practice.model.Gift;
 import com.epam.practice.model.Question;
 import com.epam.practice.model.repositories.GiftRepository;
 import com.epam.practice.model.repositories.QuestionRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
-import java.io.Serializable;
-
-public class NaiveBayesWrapper implements Serializable {
+@Component
+@Scope("session")
+public class NaiveBayesWrapper {
     private NaiveBayes naiveBayes;
-
+    @Autowired
     private QuestionRepository questionRepository;
+    @Autowired
     private GiftRepository giftRepository;
 
     private Gift bestGift;
+    private Long questionId;
 
-    public NaiveBayesWrapper(NaiveBayes naiveBayes, QuestionRepository questionRepository, GiftRepository giftRepository) {
-        this.naiveBayes = naiveBayes;
-        this.questionRepository = questionRepository;
-        this.giftRepository = giftRepository;
+    @Autowired
+    public NaiveBayesWrapper(DBDataInput dbDataInput) {
+        this.naiveBayes = new NaiveBayes(dbDataInput);
     }
 
     public Question getNextQuestion() {
         long nextQuestionId = naiveBayes.getNextQuestionId();
 
-        return questionRepository.getOne(nextQuestionId);
+        this.questionId = nextQuestionId;
+
+        return questionRepository.findById(nextQuestionId).get();
     }
 
     public boolean canGetBest() {
@@ -35,12 +41,12 @@ public class NaiveBayesWrapper implements Serializable {
     public Gift getBestGift() {
         long bestGiftId = naiveBayes.getBestGiftId();
 
-        bestGift = giftRepository.getOne(bestGiftId);
+        bestGift = giftRepository.findById(bestGiftId).get();
 
         return bestGift;
     }
 
-    public void userAnswer(Long questionId, Answer answer) {
+    public void userAnswer(Answer answer) {
         naiveBayes.userAnswer(questionId, answer);
     }
 

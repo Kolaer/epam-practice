@@ -22,6 +22,10 @@
             </div>
         </nav>
         <hr/>
-        <a href="${pageContext.request.contextPath}/game">Start game</a>
+        ${question.question}
+        <hr/>
+        <a href="${pageContext.request.contextPath}/gameYes">Yes</a><br/>
+        <a href="${pageContext.request.contextPath}/gameNo">No</a><br/>
+        <a href="${pageContext.request.contextPath}/gameIDK">I don't know</a><br/>
     </jsp:body>
 </tags:template>

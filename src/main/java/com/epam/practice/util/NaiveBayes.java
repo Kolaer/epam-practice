@@ -2,12 +2,11 @@ package com.epam.practice.util;
 
 import com.epam.practice.model.Answer;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
-public class NaiveBayes implements Serializable {
+public class NaiveBayes {
     private BayesDataInput dataInput;
 
     private List<Long> askedQuestionsIds;
@@ -92,5 +91,18 @@ public class NaiveBayes implements Serializable {
 
     void succeed(long giftId) {
         dataInput.succeed(askedQuestionsIds, userAnswers, giftId);
+        askedQuestionsIds.clear();
+        userAnswers.clear();
+
+        double totalPopularity = dataInput.getTotalPopularity();
+
+        for (int i = 0; i < giftValues.size(); i++) {
+            long nthGiftId = dataInput.getNthGiftId(i);
+            long popularity = dataInput.getPopularity(nthGiftId);
+
+            double val = Math.log(popularity) - Math.log(totalPopularity);
+
+            giftValues.set(i, -val);
+        }
     }
 }
