@@ -66,10 +66,6 @@ public class NaiveBayes {
 
             giftValues.set(i, val - Math.log(probability));
         }
-
-        for (Double giftValue : giftValues) {
-            System.out.println(giftValue);
-        }
     }
 
     boolean canGetBest() {
