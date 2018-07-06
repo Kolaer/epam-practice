@@ -43,7 +43,7 @@ public class NaiveBayes {
 
             double val = Math.log(popularity) - Math.log(totalPopularity);
 
-            giftValues.set(i, -val);
+            giftValues.set(i, -1.0 / val);
         }
     }
 
@@ -65,6 +65,10 @@ public class NaiveBayes {
             final double probability = dataInput.getProbability(questionId, answer, giftId);
 
             giftValues.set(i, val - Math.log(probability));
+        }
+
+        for (Double giftValue : giftValues) {
+            System.out.println(giftValue);
         }
     }
 
@@ -91,6 +95,10 @@ public class NaiveBayes {
 
     void succeed(long giftId) {
         dataInput.succeed(askedQuestionsIds, userAnswers, giftId);
+        clean();
+    }
+
+    private void clean() {
         askedQuestionsIds.clear();
         userAnswers.clear();
 
