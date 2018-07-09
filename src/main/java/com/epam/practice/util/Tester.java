@@ -2,9 +2,7 @@ package com.epam.practice.util;
 
 import com.epam.practice.model.Answer;
 
-import java.io.Serializable;
-
-public class Tester implements Serializable {
+public class Tester {
     private NaiveBayes bayes;
     private TestDataInput testDataInput;
 
@@ -17,22 +15,34 @@ public class Tester implements Serializable {
         for (int i = 0; i < numberOfLearningRuns; i++) {
             long giftId = testDataInput.pickGift();
 
-            for (int j = 0; j < 10; j++) {
-                long questionId = bayes.getNextQuestionId();
-                Answer answer = testDataInput.getAnswer(questionId, giftId);
-                bayes.userAnswer(questionId, answer);
+            int tries = 3;
+            boolean succeed = false;
+            long bestGiftId = 0;
+
+            while (tries > 0) {
+                while (!bayes.canGetBest()) {
+                    long questionId = bayes.getNextQuestionId();
+                    Answer answer = testDataInput.getAnswer(questionId, giftId);
+                    bayes.userAnswer(questionId, answer);
+                }
+
+                bestGiftId = bayes.getBestGiftId();
+
+                if (testDataInput.normDistance(giftId, bestGiftId) < 0.2) {
+                    succeed = true;
+                    break;
+                } else {
+                    tries--;
+                    long questionId = bayes.getNextQuestionId();
+                    Answer answer = testDataInput.getAnswer(questionId, giftId);
+                    bayes.userAnswer(questionId, answer);
+                }
             }
 
-            while (!bayes.canGetBest()) {
-                long questionId = bayes.getNextQuestionId();
-                Answer answer = testDataInput.getAnswer(questionId, giftId);
-                bayes.userAnswer(questionId, answer);
-            }
-
-            long bestGiftId = bayes.getBestGiftId();
-
-            if(testDataInput.normDistance(giftId, bestGiftId) < 0.2) {
+            if(succeed) {
                 bayes.succeed(bestGiftId);
+            } else {
+                bayes.clean();
             }
         }
 
@@ -41,26 +51,40 @@ public class Tester implements Serializable {
         for (int i = 0; i < numberOfRuns; i++) {
             long giftId = testDataInput.pickGift();
 
-            for (int j = 0; j < 10; j++) {
-                long questionId = bayes.getNextQuestionId();
-                Answer answer = testDataInput.getAnswer(questionId, giftId);
-                bayes.userAnswer(questionId, answer);
+            int tries = 3;
+            boolean succeed = false;
+            long bestGiftId = 0;
+
+            while (tries > 0) {
+                while (!bayes.canGetBest()) {
+                    long questionId = bayes.getNextQuestionId();
+                    Answer answer = testDataInput.getAnswer(questionId, giftId);
+                    bayes.userAnswer(questionId, answer);
+                }
+
+                bestGiftId = bayes.getBestGiftId();
+
+                if (testDataInput.normDistance(giftId, bestGiftId) < 0.2) {
+                    num += 1;
+                    succeed = true;
+                    break;
+                } else {
+                    tries--;
+                    long questionId = bayes.getNextQuestionId();
+                    Answer answer = testDataInput.getAnswer(questionId, giftId);
+                    bayes.userAnswer(questionId, answer);
+                }
             }
 
-            while (!bayes.canGetBest()) {
-                long questionId = bayes.getNextQuestionId();
-                Answer answer = testDataInput.getAnswer(questionId, giftId);
-                bayes.userAnswer(questionId, answer);
-            }
-
-            long bestGiftId = bayes.getBestGiftId();
-
-            if(testDataInput.normDistance(giftId, bestGiftId) < 0.2) {
-                num += 1;
+            if(succeed) {
                 bayes.succeed(bestGiftId);
+            } else {
+                bayes.clean();
             }
+
         }
 
         return (double) num / numberOfRuns;
     }
+
 }

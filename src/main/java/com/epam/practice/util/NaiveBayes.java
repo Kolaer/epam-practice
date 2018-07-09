@@ -94,7 +94,7 @@ public class NaiveBayes {
         clean();
     }
 
-    private void clean() {
+    void clean() {
         askedQuestionsIds.clear();
         userAnswers.clear();
 
