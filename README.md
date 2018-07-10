@@ -9,4 +9,19 @@ Site will be available at `localhost:8080`.
 
 #
 
-Docker support in progress...
+To run in docker:
+
+1) Build a docker image:
+
+```
+$ docker build --tag <tag> .
+```
+
+2) Run it:
+
+```
+$ docker run --rm -p 8080:8080 <tag>
+```
+#
+--rm - remove container after stopping application
+-p - port forwarding
