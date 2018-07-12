@@ -64,7 +64,7 @@ public class NaiveBayes {
 
             final double probability = dataInput.getProbability(questionId, answer, giftId);
 
-            giftValues.set(i, val - Math.log(probability));
+            giftValues.set(i, val - 1.0 / Math.log(probability));
         }
     }
 
